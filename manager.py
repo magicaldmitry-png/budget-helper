@@ -73,6 +73,73 @@ class BudgetManager:
         """
         # inorder_traversal() выполняет симметричный обход дерева
         return self.expense_tree.inorder_traversal()
-    
-    
+
+
+def get_all_expenses(self):
+        """
+        функция возвращает список всех расходов
+        """
+        return self.expenses
+def get_period_sum(self, start_day, end_day):
+        """
+        функция возвращает сумму расходов за период, перед подсчётом проверяются границы
+        периода и сам подсчёт выполняется через массив префиксных сумм
+        """
+        #проверяем, что начальный и конечный день входят в диапазон 1-31
+        if not self._is_valid_day(start_day):
+            raise ValueError("Начальный день должен быть числом от 1 до 31")
+        if not self._is_valid_day(end_day):
+            raise ValueError("Конечный день должен быть числом от 1 до 31")
+        #начальный день не может быть больше конечного.
+        if start_day > end_day:
+            raise ValueError("Начальный день не может быть больше конечного.")
+        return get_period_sum(self.prefix_sums, start_day, end_day)
+def get_max_expense_day(self):
+        """
+        функция возвращает день с максимальными расходами в виде кортежа
+    из двух значений: номер дня и сумма расходов в этот день
+        """
+        #если расходов нет, возвращаем 0 и 0
+        if not self.has_expenses():
+            return 0, 0
+        return find_max_expense_day(self.daily_totals)
+def get_sorted_categories(self):
+        """
+        фунция возвращает категории, отсортированные по сумме расходов,
+        сначала считаются суммы по категориям, а затем категории сортируются 
+        вставками
+        """
+        #если расходов нет, возвращаем пустой список
+        if not self.has_expenses():
+            return []
+        category_totals = get_category_totals(self.expenses)
+        #сортируем категории по сумме расходов
+        return insertion_sort_categories(category_totals)
+def _is_valid_day(self, day):
+        """
+        функция проверяет, что день месяца указан правильно и возвращает
+        True, если день является числом от 1 до 31
+        False в остальных случаях
+        """
+        if not isinstance(day, int):
+            return False
+        return 1 <= day <= 31
+def _is_valid_amount(self, amount):
+        """
+        функция проверяет, что сумма расхода указана правильно и возвращает
+        True, если сумма является числом больше 0
+        False в остальных случаях
+        """
+        #сумма может быть целым числом или дробным числом.
+        if not isinstance(amount, int) and not isinstance(amount, float):
+            return False
+        return amount > 0
+def has_expenses(self):
+        """
+        функция проверяет, есть ли в программе расходы и возращает
+        True, если список расходов не пустой
+    False, если расходов нет
+        """
+        #если длина списка больше 0, значит расходы уже добавлены
+        return len(self.expenses) > 0
 
