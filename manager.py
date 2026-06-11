@@ -5,7 +5,8 @@
 стеком отмены, деревом расходов, дневными суммами и префиксными суммами.
 """
 
-from algorithms import build_daily_totals, build_prefix_sums
+from algorithms import ( build_daily_totals, build_prefix_sums, get_period_sum as calculate_period_sum,
+find_max_expense_day, get_category_totals,insertion_sort_categories,)
 from models import Expense
 from structures import Stack, ExpenseTree
 
@@ -93,7 +94,7 @@ def get_period_sum(self, start_day, end_day):
         #начальный день не может быть больше конечного.
         if start_day > end_day:
             raise ValueError("Начальный день не может быть больше конечного.")
-        return get_period_sum(self.prefix_sums, start_day, end_day)
+        return calculate_period_sum(self.prefix_sums, start_day, end_day)
 def get_max_expense_day(self):
         """
         функция возвращает день с максимальными расходами в виде кортежа
