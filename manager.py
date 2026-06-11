@@ -65,3 +65,14 @@ class BudgetManager:
 
         # Возвращаем последний расход, чтобы вывести его юзеру
         return expense
+
+    def get_tree_expenses(self):
+        """
+        Метод возвращает расходы из дерева в порядке
+        возрастания дней.
+        """
+        # inorder_traversal() выполняет симметричный обход дерева
+        return self.expense_tree.inorder_traversal()
+    
+    
+
