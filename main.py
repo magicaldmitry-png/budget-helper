@@ -132,10 +132,13 @@ def handle_period_sum(manager):
     Выводит сумму расходов за выбранный период.
     Принимает в качестве аргумента manager: объект BudgetManager.
     """
+    # Считываем данные пользователя
     start_day = read_int("Введите начальный день: ")
     end_day = read_int("Введите конечный день: ")
 
+    # Manager использует префиксные суммы и возвращает результат
     total = manager.get_period_sum(start_day, end_day)
+    # Форматируем сумму
     total = format_amount(total)
 
     print(f"Сумма расходов с {start_day} по {end_day} день: {total} руб.")
@@ -145,12 +148,15 @@ def handle_max_day(manager):
     Выводит день с максимальной суммой расходов.
     Принимает в качестве аргумента manager: объект BudgetManager.
     """
+    # Получаем день и сумму расходов за заданный день
     day, amount = manager.get_max_expense_day()
 
+    # Если сумма 0, то расходов пока нет
     if amount == 0:
         print("Расходов пока нет.")
         return
 
+    # Форматируем сумму 
     amount = format_amount(amount)
     print(f"Больше всего потрачено в {day} день: {amount} руб.")
 
@@ -160,14 +166,17 @@ def handle_categories(manager):
     Выводит категории расходов, отсортированные по сумме
     Принимает в качестве аргумента manager: объект BudgetManager.
     """
+    # Получаем категории, отсортированные вставками
     categories = manager.get_sorted_categories()
 
+    # Если список пуст, расходов пока нет
     if not categories:
-        print("Расходов пока нет.")
+        print("Расходов пока нет")
         return
 
     print("\nРасходы по категориям:")
 
+    # Выводим категории и суммы нумерованным списком
     for number, category_data in enumerate(categories, start=1):
         category = category_data[0]
         amount = format_amount(category_data[1])
@@ -180,10 +189,12 @@ def handle_undo(manager):
     Отменяет последнее добавление расхода
     Принимает в качестве аргумента manager: объект BudgetManager.
     """
+    # Достаем последний добавленный элемент стека
     deleted_expense = manager.undo_last_expense()
 
+    # Если стек пустой, значит расходов еще нет 
     if deleted_expense is None:
-        print("Отменять нечего.")
+        print("Отменять нечего")
         return
 
     print(f"Отменён расход: {deleted_expense}")
@@ -194,14 +205,17 @@ def handle_tree_expenses(manager):
     Выводит расходы из дерева в порядке возрастания дней
     Принимает в качестве аргумента manager: объект BudgetManager.
     """
+    # Получаем расходы через симметричный обход дерева
     expenses = manager.get_tree_expenses()
 
+    # Если дерево пустое, то расходов пока нет
     if not expenses:
-        print("Дерево пустое. Расходов пока нет.")
+        print("Дерево пустое. Расходов пока нет")
         return
 
     print("\nРасходы из дерева по дням:")
 
+    # Выводим траты последовательно
     for expense in expenses:
         print(expense)
 
@@ -210,8 +224,10 @@ def main():
     """
     Запускает программу и обрабатывает выбор пользователя
     """
+    # Создаём главный объект, который будет хранить все данные программы
     manager = BudgetManager()
 
+    # Бесконечный цикл, чтобы меню показывалось пока пользователь не выберет выход
     while True:
         print_menu()
         choice = input("Выберите действие: ").strip()
