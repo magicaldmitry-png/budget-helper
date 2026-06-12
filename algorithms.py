@@ -20,6 +20,7 @@ def build_daily_totals(expenses):
     for expense in expenses:
         daily_totals[expense.day] += expense.amount
     return daily_totals
+
 def build_prefix_sums(daily_totals):
     """
     функция строит массив префиксных сумм, то есть префиксная сумма на день
@@ -31,13 +32,15 @@ def build_prefix_sums(daily_totals):
     #текущая префиксная сумма равна прошлой префиксной сумме
         prefix_sums[day] = prefix_sums[day - 1] + daily_totals[day]
     return prefix_sums
+
 def get_period_sum(prefix_sums, start_day, end_day):
     """
     функция возвращает сумму расходов за выбранный период, она принмает
- список префиксных сумм, начальный день периода и конечный день
+    список префиксных сумм, начальный день периода и конечный день
     """
     #из суммы с 1 дня по конечный вычитаем сумму до start_day, чтобы получить промежуток
     return prefix_sums[end_day] - prefix_sums[start_day - 1]
+
 def find_max_expense_day(daily_totals):
     """
     функция находит день с максимальной суммой расходов линейным поиском и
@@ -52,6 +55,7 @@ def find_max_expense_day(daily_totals):
             max_amount = daily_totals[day]
             max_day = day
     return max_day, max_amount
+
 def get_category_totals(expenses):
     """
     функция считает общую сумму расходов по каждой категории, где
@@ -64,10 +68,11 @@ def get_category_totals(expenses):
             category_totals[expense.category] = 0
         category_totals[expense.category] += expense.amount
     return category_totals
+
 def insertion_sort_categories(category_totals):
     """
     функция сортирует категории по сумме расходов сортировкой вставками
-категории сортируются по убыванию суммы, чтобы самые большие расходы отображались первыми
+    категории сортируются по убыванию суммы, чтобы самые большие расходы отображались первыми
     """
     categories = []
     for category, amount in category_totals.items():

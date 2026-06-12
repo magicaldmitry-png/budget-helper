@@ -97,14 +97,14 @@ class ExpenseTree:
             if node.left is None:
                 node.left = TreeNode(expense)
             else:
-                self._insert_recursive(node.left, expense)
+                self.insert_recursive(node.left, expense)
 
         # Если номер дня расхода больше текущего дня, то идем вправо
         elif expense.day > node.day:
             if node.right is None:
                 node.right = TreeNode(expense)
             else:
-                self._insert_recursive(node.right, expense)
+                self.insert_recursive(node.right, expense)
         # Если номер дня расхода равен текущему и он не пуст, 
         # то добавляем расход в список
         else:

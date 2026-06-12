@@ -25,7 +25,7 @@ def print_menu():
     print("6. Показать расходы по категориям")
     print("7. Отменить последнее добавление")
     print("8. Показать расходы из дерева")
-    print("0. Выход")
+    print("0. Выход\n")
 
 def read_int(promt):
     """
@@ -100,12 +100,30 @@ def handle_add_expense(manager):
     Обрабатывает ручное добавление расхода
     Принимает в качестве аргумента manager: объект BudgetManager
     """
-    # Считываем данные пользователя
+    # Сначала считываем день и сразу проверяем его
+    # Если день неправильный, остальные данные уже не спрашиваем
     day = read_int("Введите день месяца от 1 до 31: ")
+
+    if not manager.is_valid_day(day):
+        print("Ошибка: день должен быть числом от 1 до 31.")
+        return
+
+    # Потом считываем сумму и сразу проверяем её
+    # Если сумма неправильная, категорию уже не спрашиваем
     amount = read_float("Введите сумму расхода: ")
+
+    if not manager.is_valid_amount(amount):
+        print("Ошибка: сумма расхода должна быть больше 0.")
+        return
+
+    # Категорию спрашиваем только после успешной проверки дня и суммы
     category = input("Введите категорию расхода: ").strip()
 
-    # Добавляем новый расход 
+    if category == "":
+        print("Ошибка: категория не может быть пустой.")
+        return
+
+    # Если все данные правильные, добавляем расход
     expense = manager.add_expense(day, amount, category)
     print(f"Расход добавлен: {expense}")
 
@@ -227,13 +245,21 @@ def main():
     # Создаём главный объект, который будет хранить все данные программы
     manager = BudgetManager()
 
+    # Флаг нужен, чтобы тестовые данные можно было загрузить только один раз
+    test_data_loaded = False
+
     # Бесконечный цикл, чтобы меню показывалось пока пользователь не выберет выход
     while True:
         print_menu()
         choice = input("Выберите действие: ").strip()
 
         if choice == "1":
-            load_test_data(manager, TEST_DATA_FILE)
+            # Не даём загрузить один и тот же CSV несколько раз
+            if test_data_loaded:
+                print("Тестовые данные уже были загружены.")
+            else:
+                load_test_data(manager, TEST_DATA_FILE)
+                test_data_loaded = True
 
         elif choice == "2":
             handle_add_expense(manager)
