@@ -237,4 +237,4 @@ is_valid_day(), is_valid_amount(), has_expenses()
 
 Видео с демонстрацией работы программы доступно по ссылке:
 
-[Смотреть видеоописание](ссылка)
+[Смотреть видеоописание](https://disk.yandex.ru/i/H_vryurfk2eVAw)
